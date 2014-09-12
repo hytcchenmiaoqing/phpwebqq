@@ -1,0 +1,24 @@
+body{text-align: center;}
+#loginbox{ width: 450px; height: 329px; border: 1px solid #ccc; margin:100px auto; *margin: 100px;}
+.title{ width: 430px; height: 30px; padding-left: 20px; *width: 450px; background-color: #f2f2f2;}
+.word{ display: block; float: left; line-height: 30px;font-size: 12px; font-weight: 700; text-align: left; }
+.close{ background-image: url("../images/icon.gif"); background-position: -75px -200px; display: block; width: 16px; height: 16px; margin: 5px; float: right; }
+#inner{ width: 450px; height: 300px; text-align: left; }
+.innertitle{ width:200px; height: 30px;  padding: 10px 0 20px 120px; *width: 320px; }
+.innertitle span{ display: block; width: 50px;  padding: 0 2px 10px 2px; font-size: 20px; float: left;   }
+.innertitle i{ font-style: normal;font-weight: normal; display: inline-block; float: left; margin:2px 5px 0 0;}
+.cuti{ font-weight: bold; border-bottom: 3px solid #ffa00a;}
+#inner form{width:330px; height: 152px; padding-left: 120px;  }
+.inputbox{ width: 330px; height: 30px;margin: 10px 0 10px 0px;}
+.userid{ width: 170px; height: 28px; border: 1px solid #ccc; padding: 0px 0px 0px 34px;  background-image: url("../images/form_login.png"); background-repeat: no-repeat; }
+.userpwd{width: 170px; height: 28px; border: 1px solid #ccc; padding: 0px 0px 0px 34px;  background-image: url("../images/form_login.png"); background-position: 0 -25px; background-repeat: no-repeat; }
+.inputbox input{ width: 164px;  height: 21px; margin-top: 5px; outline:none; border: 0px; padding: 0px; padding-left: 5px; }
+.submitbox{ width: 206px; height: 30px; border: 1px solid #ffb33b; background-color: #ffa00a; border-radius: 2px;}
+#submit{ padding: 1px; border: 1px solid #ffb33b; margin: 1px; width: 204px; height: 28px; background-color: #ffa00a; color: #fff; font-size: 14px; font-weight: 700;}
+.inputboxS{width: 206px; height: 20px;margin: 10px 0 10px 0px; }
+.inputboxSLeft{ width: 120px; height: 20px; float: left;}
+#checkbox{ float: left;}
+.inputboxS span{ font-size: 12px;display: inline-block; float: left; margin: 1px 5px 0 0; *margin-top: 3px; }
+.inputboxSLeft i{ display: block; width: 16px; height: 16px;float: left; background-image: url("../images/ico_warn.png"); background-position: 0 -150px; *margin-top: 1px;}
+.inputboxSRight{ width: 53px; height: 20px; float: right; }
+
