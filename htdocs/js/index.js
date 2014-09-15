@@ -14,8 +14,80 @@ $(function(){
 	sendMsg();
 	//iniDelegate();
 
+	setInterval('getUnreadMsg()',1000);
+	//getUnreadMsg();
+
+	
+
 
 });
+
+function getUnreadMsg(){
+
+	$.ajax({
+			type:"POST",
+			url:"include/ajax.php",
+			data:{flag:'getUnreadMsg'},
+			success:function(res){
+				var objs=eval("("+res+")");
+				var msgSenderid="";
+				//alert(objs);
+				$.each(objs,function(){
+
+					var msgContent=this.msgContent;
+					var msgSender=this.msgSender;
+
+
+					
+						var isshow=$("#friendlitalk"+msgSender).attr("isshow");
+						 if(isshow=="yes"){
+									msgSenderid=this.msgSender;
+									var receivemsghtmlA ='';
+									
+								    receivemsghtmlA +='	<div class="onetalkboxS">';
+								    receivemsghtmlA +='		<div class="headImageS"><img src="  " class="headImage"  /></div>';
+								    receivemsghtmlA +='		<div class="onetalkS">'+msgContent+'</div>';
+								    receivemsghtmlA +='	</div>';
+										
+								    $("#talk"+msgSender).find(".talkContent").append(receivemsghtmlA);
+
+								    
+								
+						}
+						
+						
+				
+
+					
+
+	 			});	
+	 			$.ajax({
+										type:"POST",
+										url:"include/ajax.php",
+										data:{flag:'changeMsgState',msgSender:msgSenderid},
+										success:function(res){
+											//alert(res);
+										}
+						});
+						
+	
+	 		}
+	});			
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function chathtml(){
 
 	$(".friendList li").click(function(){
@@ -30,13 +102,13 @@ function chathtml(){
 			if(isapper=="no"){
 
 			var chathtmlA='';
-				chathtmlA +='<div id="'+talkid+'" class="talk" >';
+				chathtmlA +='<div id="talk'+talkid+'" class="talk" >';
 				chathtmlA +='	<div class="talkboxtitle"><a>'+talkname+'</a><span class="close"></span></div>';
 				chathtmlA +='		<div class="talkbox">';
 				chathtmlA +='			<div class="talkContent"></div>';
 				chathtmlA +='		<div class="sendMsg">';
 				chathtmlA +='			<div class="sendbox"><input class="txtMsg" type="text"/></div>';
-				chathtmlA +='			<div class="sendbtn"><input class="send" type="submit" value="发送" /></div>';
+				chathtmlA +='			<div class="sendbtn"><input btntalkid="'+talkid+'" class="send" type="submit" value="发送" /></div>';
 				chathtmlA +='		</div>';
 				chathtmlA +='	</div>';
 				chathtmlA +='</div>';
@@ -47,22 +119,25 @@ function chathtml(){
 
 			}
 			else{	
-				$("#"+talkid).show();
+
+				$("#talk"+talkid).show();
+
 			}		
 		}
 		$(".talk").css("z-index","1");
-		$("#"+talkid).css("z-index","22");
+		$("#talk"+talkid).css("z-index","22");
 		$(".close").click(function(){
+
 			var talkidN = $(this).parent().parent().attr("id");
-			$(".friendli[talkid='"+talkidN+"']").attr("isshow","no");
-			$("#"+talkid).hide();
+			$("#friendli"+talkidN).attr("isshow","no");
+			$(this).parent().parent("#talk"+talkid).hide();
 			
 		});
 
-		// $("#"+talkid).draggable({ 
-		// 	handle: ".talkboxtitle" ,
-		// 	containment: "parent"
-		// });
+		$("#talk"+talkid).draggable({ 
+			handle: ".talkboxtitle" ,
+			containment: "parent"
+		});
 
 		
 	});
@@ -72,17 +147,17 @@ function chathtml(){
 function sendMsg(){
 	$(document).on("click",".send",function(){
 			var msg = $(this).parent().prev().find(".txtMsg").val();
-			//alert(msg);
-			if(msg==""){
+			if(msg==" "){
 				return;
 			}
 
-			var receiveid= $(this).attr("talkid");
+			var receiveid= $(this).attr("btntalkid");
+			//alert(receiveid);
 			var senderid= $("#myinfo").attr("curuserid");
 			$.ajax({
 				type:"POST",
 	 			url:"include/ajax.php",
-	 			data:{flag:'sendMsg',msg:msg,senderid:senderid,receiveid:senderid},
+	 			data:{flag:'sendMsg',msg:msg,senderid:senderid,receiveid:receiveid},
 				success:function(res){
 					//alert(res);
 				}
@@ -92,15 +167,15 @@ function sendMsg(){
 			var myHeadImageUrl=$(".headImg").attr("curHeadImageUrl");
 			//alert(myHeadImageUrl);
 
-			var chathtmlA ='';
+			var sendmsghtmlA ='';
 				
-			    chathtmlA +='	<div class="onetalkbox">';
-			    chathtmlA +='		<div class="headImage"><img src=" '+myHeadImageUrl+' " class="headImage"  /></div>';
-			    chathtmlA +='		<div class="onetalk">'+msg+'</div>';
-			    chathtmlA +='	</div>';
+			    sendmsghtmlA +='	<div class="onetalkbox">';
+			    sendmsghtmlA +='		<div class="headImage"><img src=" '+myHeadImageUrl+' " class="headImage"  /></div>';
+			    sendmsghtmlA +='		<div class="onetalk">'+msg+'</div>';
+			    sendmsghtmlA +='	</div>';
 			    
-			$(this).parent().parent().prev(".talkContent").append(chathtmlA);
-			//return false;
+			$(this).parent().parent().prev(".talkContent").append(sendmsghtmlA);
+		
 		});	
 		
 }

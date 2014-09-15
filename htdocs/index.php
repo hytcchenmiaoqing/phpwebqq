@@ -83,7 +83,7 @@
 				if ($res) {
 					foreach ($res as $friend) {
 						$curid = $friend ->friendid;
-						echo $curid;
+						//echo $curid;
 						$curHeadImageUrl = $friend ->userHeadImage;
 						$curfriendNickName = $friend ->friendNoteName;
 						$curshuoshuo = $friend ->shuoshuo;
@@ -91,7 +91,7 @@
 						//echo $curState;
 						if($curState=="online"){
 							$onlineHTML.= "
-							<li class='friendli' talkid='talk$curid' talkname='$curfriendNickName' isshow='no' isapper='no'>
+							<li class='friendli' id='friendlitalk$curid' talkid='$curid' talkname='$curfriendNickName' isshow='no' isapper='no'>
 								<div class='friendImg'><img src='$curHeadImageUrl' class='headImg'></div>
 								<div class='friendInfo'>
 									<a class='NickName'>". $curfriendNickName."</a>
