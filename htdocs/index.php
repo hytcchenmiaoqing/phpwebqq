@@ -91,23 +91,23 @@
 						//echo $curState;
 						if($curState=="online"){
 							$onlineHTML.= "
-							<li class='friendli' id='friendlitalk$curid' talkid='$curid' talkname='$curfriendNickName' isshow='no' isapper='no'>
+							<li class='friendli' id='friendlitalk$curid' talkid='$curid' talkname='$curfriendNickName' isshow='no' isapper='no' friendImg='".$curHeadImageUrl."'>
 								<div class='friendImg'><img src='$curHeadImageUrl' class='headImg'></div>
 								<div class='friendInfo'>
 									<a class='NickName'>". $curfriendNickName."</a>
 									<span class='shuoshuo'>".$curshuoshuo."</span>
-									<a>".$curState."</a>
+									<a class='State'>".$curState."</a>
 								</div>
 							</li>";
 						}else{
 							$offLineHTML.="
 
-								<li class='friendli' talkid='talk$curid' talkname='$curfriendNickName' isshow='no' isapper='no'>
+								<li class='friendli' id='friendlitalk$curid' talkid='$curid' talkname='$curfriendNickName' isshow='no' isapper='no' friendImg='".$curHeadImageUrl."'>
 									<div class='friendImg '><img src='$curHeadImageUrl' class='headImg grey'></div>
 									<div class='friendInfo'>
 										<a class='NickName'>". $curfriendNickName."</a>
 										<span class='shuoshuo'>".$curshuoshuo."</span>
-										<a>".$curState."</a>
+										<a class='State'>".$curState."</a>
 									</div>
 								</li>";
 							

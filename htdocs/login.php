@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <head>
 	<meta charset=utf-8 />
-	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<!-- <script type="text/javascript" src="js/index.js"></script> -->
 	<link rel="stylesheet" type="text/css" href="css/weibologin.css">
 	<title></title>
 </head>
@@ -14,6 +15,8 @@
 	if( $info=="wrongpwd"){
 		echo "<script>tiao();</script>";
 	}
+	// unset($_SESSION["wodeid"]);
+	// unset($_SESSION["wodenicheng"]);
 	if( $logout == "yes"){
 		unset($_SESSION["wodeid"]);
 		unset($_SESSION["wodenicheng"]);
@@ -34,6 +37,7 @@
 			<form action="index.php" method="post">
 				<div class="inputbox">
 					<div class="userid">
+
 						<input name="userid" type="text" id="txtUserid"  />
 					</div>
 					
@@ -56,7 +60,7 @@
 
 				</div>
 				<div class="submitbox">
-					<input type="submit" value="登录" id="submit" />
+					<input type="submit" value="登录" class="submit"  />
 				</div>
 				
 			</form>

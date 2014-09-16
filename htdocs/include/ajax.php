@@ -11,6 +11,7 @@
 	$curUserid=isset($_SESSION["wodeid"])?$_SESSION["wodeid"]:"";
 
 	$msgSender=isset($_POST["msgSender"])?$_POST["msgSender"]:"";
+	
 	//echo $curUserid;
 
 	if($flag =="sendMsg"){
@@ -39,7 +40,7 @@
 	if($flag =="changeMsgState"){
 
 		$sql ="update messageinfo set msgState='read' where msgSender=$msgSender";
-		
+		echo $sql;
 		$res =$db->get_results($sql);
 		if(!$res){
 			echo "fail";
@@ -48,7 +49,25 @@
 		}
 		die();
 	}
+	if($flag=="logoin"){
+			$sql ="update userinfo set userState='online' where id=$curUserid";
+			echo "$curUserid";
+			$res=$db->get_results($sql);
+		}
 
+	if($flag=="logout"){
+		$sql ="update userinfo set userState='offline' where id=$curUserid";
+		$res=$db->get_results($sql);
+
+	}
+
+	if($flag=="changelogout"){
+		$sql="SELECT * FROM userinfo WHERE id in (SELECT friendid FROM friendsinfo where userid=$curUserid)";
+		$res=$db->get_results($sql);
+
+		echo json_encode($res);
+	}
+	
 
 	
 ?>

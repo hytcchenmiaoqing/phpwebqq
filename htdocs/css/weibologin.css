@@ -14,7 +14,7 @@ body{text-align: center;}
 .userpwd{width: 170px; height: 28px; border: 1px solid #ccc; padding: 0px 0px 0px 34px;  background-image: url("../images/form_login.png"); background-position: 0 -25px; background-repeat: no-repeat; }
 .inputbox input{ width: 164px;  height: 21px; margin-top: 5px; outline:none; border: 0px; padding: 0px; padding-left: 5px; }
 .submitbox{ width: 206px; height: 30px; border: 1px solid #ffb33b; background-color: #ffa00a; border-radius: 2px;}
-#submit{ padding: 1px; border: 1px solid #ffb33b; margin: 1px; width: 204px; height: 28px; background-color: #ffa00a; color: #fff; font-size: 14px; font-weight: 700;}
+.submit{ padding: 1px; border: 1px solid #ffb33b; margin: 1px; width: 204px; height: 28px; background-color: #ffa00a; color: #fff; font-size: 14px; font-weight: 700;}
 .inputboxS{width: 206px; height: 20px;margin: 10px 0 10px 0px; }
 .inputboxSLeft{ width: 120px; height: 20px; float: left;}
 #checkbox{ float: left;}

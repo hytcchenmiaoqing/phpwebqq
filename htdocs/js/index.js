@@ -15,61 +15,149 @@ $(function(){
 	//iniDelegate();
 
 	setInterval('getUnreadMsg()',1000);
-	//getUnreadMsg();
+	setInterval('changelogout()',1000);
+	//setInterval('logout()',1000);
+	logoin();
+	logout();
 
 	
 
 
 });
+function logoin(){
+	//$(".submit").click(function(){
 
-function getUnreadMsg(){
+		
+
+		$.ajax({
+			type:"POST",
+			url:"include/ajax.php",
+			data:{flag:'logoin'},
+			success:function(res){
+				//alert(0);
+				//alert(res);
+			}
+		});
+
+	//});
+	
+}
+
+function changelogout(){
 
 	$.ajax({
 			type:"POST",
 			url:"include/ajax.php",
+			data:{flag:'changelogout'},
+			success:function(res){
+				var objs=eval("("+res+")");
+				$.each(objs,function(){
+					var id=this.id;
+					var userNickname=this.userNickname;
+					var userHeadImage=this.userHeadImage;
+					var shuoshuo=this.shuoshuo;
+					var userState=this.userState;
+					var curuserid=$("#myinfo").attr("curuserid");
+					var talkname=$("#friendlitalk"+id).attr("talkname");
+					var State=$("#friendlitalk"+id).find(".State").html();
+					//alert(talkname);
+					if(userState=="online"&&id!=curuserid&& State=="offline"){
+						$("#friendlitalk"+id).remove();
+
+						var onlinehtml ='';
+							onlinehtml +='<li class="friendli" id="friendlitalk'+id+'" talkid="'+id+'" talkname="'+talkname+'" isshow="no" isapper="no" friendImg="'+userHeadImage+'">';
+							onlinehtml +='	<div class="friendImg"><img src="'+userHeadImage+'" class="headImg"></div>';
+							onlinehtml +='	<div class="friendInfo">';
+							onlinehtml +='		<a class="NickName">'+talkname+'</a>';
+							onlinehtml +='		<span class="shuoshuo">'+shuoshuo+'</span>';
+							onlinehtml +='		<a class="State">'+userState+'</a>';
+							onlinehtml +='	</div>';
+							onlinehtml +='</li>';
+						$(".onlinefriendList").append(onlinehtml);
+					}
+					else if(userState=="offline"&& State=="online"){
+						$("#friendlitalk"+id).remove();
+
+						var offlinehtml ='';
+							offlinehtml +='<li class="friendli" id="friendlitalk'+id+'" talkid="'+id+'" talkname="'+talkname+'" isshow="no" isapper="no" friendImg="'+userHeadImage+'">';
+							offlinehtml +='	<div class="friendImg"><img src="'+userHeadImage+'" class="headImg grey"></div>';
+							offlinehtml +='	<div class="friendInfo">';
+							offlinehtml +='		<a class="NickName">'+talkname+'</a>';
+							offlinehtml +='		<span class="shuoshuo">'+shuoshuo+'</span>';
+							offlinehtml +='		<a class="State">'+userState+'</a>';
+							offlinehtml +='	</div>';
+							offlinehtml +='</li>';
+						$(".offlinefriendList").append(offlinehtml);
+					}
+				});
+
+			}
+		});
+}
+
+function logout(){
+	$(".logout").click(function(){
+
+		$.ajax({
+			type:"POST",
+			url:"include/ajax.php",
+			data:{flag:'logout'},
+			success:function(res){
+				//alert(res);
+			}
+		});
+
+	});
+	
+}
+
+function getUnreadMsg(){
+
+	var msgSenderidArr=new Array();
+	$.ajax({
+			type:"POST",
+			url:"include/ajax.php",
+			async:false,
 			data:{flag:'getUnreadMsg'},
 			success:function(res){
 				var objs=eval("("+res+")");
-				var msgSenderid="";
+				//var msgSenderid="";
 				//alert(objs);
 				$.each(objs,function(){
 
+					//alert(this.msgContent);
 					var msgContent=this.msgContent;
 					var msgSender=this.msgSender;
 
-
-					
-						var isshow=$("#friendlitalk"+msgSender).attr("isshow");
-						 if(isshow=="yes"){
-									msgSenderid=this.msgSender;
-									var receivemsghtmlA ='';
-									
-								    receivemsghtmlA +='	<div class="onetalkboxS">';
-								    receivemsghtmlA +='		<div class="headImageS"><img src="  " class="headImage"  /></div>';
-								    receivemsghtmlA +='		<div class="onetalkS">'+msgContent+'</div>';
-								    receivemsghtmlA +='	</div>';
-										
-								    $("#talk"+msgSender).find(".talkContent").append(receivemsghtmlA);
-
-								    
+					var isshow=$("#friendlitalk"+msgSender).attr("isshow");
+					var friendImg=$("#friendlitalk"+msgSender).attr("friendImg");
+					//alert(isshow);
+					 if(isshow=="yes"){
+					 			msgSenderidArr.push(this.msgSender);
+								msgSenderid=this.msgSender;
+								var receivemsghtmlA ='';
 								
-						}
-						
-						
-				
-
-					
-
-	 			});	
-	 			$.ajax({
-										type:"POST",
-										url:"include/ajax.php",
-										data:{flag:'changeMsgState',msgSender:msgSenderid},
-										success:function(res){
-											//alert(res);
-										}
-						});
-						
+							    receivemsghtmlA +='	<div class="onetalkboxS">';
+							    receivemsghtmlA +='		<div class="headImageS"><img src="'+friendImg+'" class="headImage"  /></div>';
+							    receivemsghtmlA +='		<div class="onetalkS">'+msgContent+'</div>';
+							    receivemsghtmlA +='	</div>';
+									
+							    $("#talk"+msgSender).find(".talkContent").append(receivemsghtmlA);		    
+							
+					}
+	 			});
+	 			if(msgSenderidArr.length != 0){
+	
+		 			$.ajax({
+								type:"POST",
+								url:"include/ajax.php",
+								data:{flag:'changeMsgState',msgSender:msgSenderid},
+								success:function(res){
+									//alert(res);
+								}
+							});
+		 		}
+							
 	
 	 		}
 	});			
@@ -90,7 +178,8 @@ function getUnreadMsg(){
 
 function chathtml(){
 
-	$(".friendList li").click(function(){
+	$(document).on("click",".friendList li",function(){
+
 
 		var talkid=$(this).attr("talkid");
 		var talkname=$(this).attr("talkname");
@@ -159,7 +248,7 @@ function sendMsg(){
 	 			url:"include/ajax.php",
 	 			data:{flag:'sendMsg',msg:msg,senderid:senderid,receiveid:receiveid},
 				success:function(res){
-					//alert(res);
+					alert(res);
 				}
 	 		});
 
