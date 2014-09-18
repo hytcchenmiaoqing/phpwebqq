@@ -3,13 +3,14 @@ a{ text-decoration: none;}
 *{ margin: 0; padding: 0;}
 .left{width: 400px; height: 650px; float: left;margin: 0px 0 0 50px; float: left;}
 .friendList{ width: 300px; height: 500px; border: 1px solid #b6cf5f; border-radius: 15px; box-shadow: 0 0 5px 5px #b6cf5f ;  }
-.friendList ul{ display: inline-block; padding: 0px;}
-.friendList li{ width: 298px; height: 100px;  }
+.friendList ul{ display: inline-block; padding: 0px; padding-top: 5px;}
+.friendList li{ width: 300px; height: 100px; position: relative;  }
 .friendImg{ width: 60px; height:60px; float: left; padding: 20px 0 0 20px;}
 .friendInfo{ width: 150px; height: 80px; float: left; padding: 20px 0 0 40px;}
-.NickName{ display: block; text-align: left; padding: 0 0 10px 0; font-size: 16px; font-weight: bold;}
-.shuoshuo{ display: block;text-align: left; font-size: 12px; overflow:hidden;white-space:nowrap; text-overflow:ellipsis }
-.logout{ display: inline-block; font-size: 12px; color: #111;}
+.NickName{ display: inline-block; text-align: left; padding: 0 20px 10px 0; font-size: 16px; font-weight: bold; }
+.xgFNickname{display: none; font-size: 12px; color: #b6cf5f;position: absolute; top: 20px;right: 10px; z-index: 222;}
+.shuoshuo{ display: block;text-align: left; font-size: 12px;  overflow:hidden;white-space:nowrap; text-overflow:ellipsis }
+.logout{ display: inline-block; font-size: 12px; color: #111; padding: 5px 0 5px 0;}
 .headImg{ width: 60px; height: 60px; }
 #myinfo{ width: 300px; height: 100px;  }
 #myinfo li{ width: 300px; height: 100px; list-style: none; }
@@ -35,4 +36,13 @@ a{ text-decoration: none;}
 
 .onetalkboxS{ width: 300px; height: auto; min-height: 60px; float: left; padding-top: 20px; padding-left: 20px;}
 .onetalkS{width:auto; min-width: 20px;max-width: 200px; height: auto;min-height: 20px; float: left; border: 1px solid #b6cf5f; background-color: #b6cf5f; border-radius: 10px; margin:20px 20px 20px 10px; padding: 5px; font-size: 12px; color: #333; line-height: 20px;}
-.headImageS{ width: 60px; height: 60px; float: left; border: 1px solid #ccc;}
+.headImageS{ width: 60px; height: 60px; float: left; border: 1px solid #ccc; }
+
+.changemyinfo{display: none;  width: 500px; height: 500px; border: 1px solid #b6cf5f; border-radius: 10px; box-shadow: 0 0 2px 2px #b6cf5f; position: absolute;top: 100px; left: 100px;z-index: 1;}
+.box ul{ display: block; padding-top: 50px; }
+.box li{ display: block; width: 400px; height: 50px; padding: 10px 0 10px 100px;}
+.box li a{ display: inline-block; padding: 10px; font-weight: 700;} 
+.box input{ width: 200px; height: 30px; }
+.xiugai{ width: 200px;height: 30px; padding-left: 153px;  padding-top: 50px;}
+
+.changefriendinfo{display: none; width: 500px; height: 500px; border: 1px solid #b6cf5f; border-radius: 10px; box-shadow: 0 0 2px 2px #b6cf5f; position: absolute;top: 100px; left: 100px;z-index: 1;}

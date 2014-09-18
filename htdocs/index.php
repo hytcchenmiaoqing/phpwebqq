@@ -20,6 +20,7 @@
 		}else{
 			$_SESSION["wodeid"]= $userid;
 			$_SESSION["wodenicheng"]= $res->userNickname;
+			$_SESSION["wodemima"]=$res->userpwd;
 			//echo "success to login! welcome " .$res->userNickname;
 		
 
@@ -29,6 +30,7 @@
 
 	$curnicheng = isset($_SESSION["wodenicheng"])?$_SESSION["wodenicheng"]:"" ;
 	//echo $curnicheng;
+	$curpwd =isset($_SESSION["wodemima"])?$_SESSION["wodemima"]:"";
 	if($curid ==""){
 		header("location:login.php?error=needlogin");
 		die();
@@ -95,6 +97,7 @@
 								<div class='friendImg'><img src='$curHeadImageUrl' class='headImg'></div>
 								<div class='friendInfo'>
 									<a class='NickName'>". $curfriendNickName."</a>
+									<a class='xgFNickname' id='xgFNickname$curid'>修改好友备注</a>
 									<span class='shuoshuo'>".$curshuoshuo."</span>
 									<a class='State'>".$curState."</a>
 								</div>
@@ -106,6 +109,7 @@
 									<div class='friendImg '><img src='$curHeadImageUrl' class='headImg grey'></div>
 									<div class='friendInfo'>
 										<a class='NickName'>". $curfriendNickName."</a>
+										<a class='xgFNickname'  id='xgFNickname$curid'>修改好友备注</a>
 										<span class='shuoshuo'>".$curshuoshuo."</span>
 										<a class='State'>".$curState."</a>
 									</div>
@@ -128,24 +132,21 @@
 		</div>
 	</div>
 	<div class="right">
-	
-	<!-- 	<div class="talk">
-			 <div class="talkboxtitle"><a></a><span class="close"></span></div>
-			 <div class="talkbox">
-				<div class="talkContent" >
-					
-						
-					
-
-				</div>
-				<div class="sendMsg">
-					<div class="sendbox"><input id="txtMsg" type="text" maxlength="4000" value=" " /></div>
-					<div class="sendbtn"><input id="send" type="submit" value="发送" /></div>
-
-				 </div>
-			</div>
+		<div class="changemyinfo box">
+			<div class="talkboxtitle"><a>修改个人信息</a><span class="close"></span></div>
+			<ul>
+				<li><a>昵称</a><input type="text" value="<?php echo $curnicheng; ?>" class="newNickname" /></li>
+				<li><a>密码</a><input type="password" value="<?php echo $curpwd;?>" class="newpwd" /></li>
+				<li><a>说说</a><input type="text" value="<?php echo $myshuoshuo;?>" class="newShuoshuo" /></li>
+			</ul>
+			<div class="xiugai"><input type="submit" class="xiugaimybtn" value="确认修改" /></div>						
 		</div>
- -->
-	</div>
+		<div class="changefriendinfo box">
+			<div class="talkboxtitle"><a>修改好友备注</a><span class="close"></span></div>
+			<ul>
+				<li><a>备注</a><input type="text" class="newfriendNoteName" /></li>
+			</ul>
+			<div class="xiugai"><input type="submit" class="xiugaifriendbtn" value="确认修改" /></div>						
+		</div>
 </body>
 </html>

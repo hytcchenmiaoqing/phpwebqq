@@ -12,34 +12,131 @@ $(function(){
 
 	chathtml();
 	sendMsg();
-	//iniDelegate();
-
 	setInterval('getUnreadMsg()',1000);
 	setInterval('changelogout()',1000);
-	//setInterval('logout()',1000);
 	logoin();
 	logout();
-
+	changemyinfo();
+	setInterval('selectinfo()',1000);
 	
 
+	$(".friendli").hover(function(){
 
+		$(this).find(".xgFNickname").show();
+	},function(){
+		$(this).find(".xgFNickname").hide();
+	});
+
+	xgFNickname();
+	draggable();
 });
-function logoin(){
-	//$(".submit").click(function(){
+function xgFNickname(){
+	$(document).on("click",".xgFNickname",function(){
+		
+		var cufriendid=$(this).parent().parent().attr("talkid");
+		
+		var newfriendNoteName=$(".newfriendNoteName").val();
 
+		$(".changefriendinfo").show();
+		return false;
+
+	});
+	//$(document).on("click",".xiugaifriendbtn",function(){
+	$(".xiugaifriendbtn").click(function(){
+			$.ajax({
+				type:"POST",
+				url:"include/ajax.php",
+				data:{flag:'changefriendinfo',newfriendNoteName:newfriendNoteName,cufriendid:cufriendid},
+				success:function(res){
+					alert(res);
+				}
+			});
+			
+		
+		$(this).parent().parent().hide();
+			
+	});
+}
+
+function selectinfo(){
+
+	$.ajax({
+		type:"POST",
+		url:"include/ajax.php",
+		data:{flag:'selectinfo'},
+		success:function(res){
+			//alert(res);
+			var objs=eval("("+res+")");
+			$.each(objs,function(){
+					//alert(this.id);
+					$("#friendlitalk"+this.id+" .shuoshuo").html(this.shuoshuo);
+					var curuserid=$("#myinfo").attr("curuserid");
+					if(this.id==curuserid){
+
+						$(".Myshuoshuo").html(this.shuoshuo);
+						$(".myNickName").html(this.userNickname);
+					}
+						
+				
+				
+			});
+		}
+	});
+}
+
+function changemyinfo(){
+
+	$("#myinfo").click(function(){
+		$(".changemyinfo").show();
+		
+	});
+
+	$(".close").click(function(){
+		$(this).parent().parent().hide();
+			
+	});
+
+	$(".xiugaimybtn").click(function(){
+		
+
+		var newNickname=$(".newNickname").val();
+		var newpwd=$(".newpwd").val();
+		var newShuoshuo=$(".newShuoshuo").val();
 		
 
 		$.ajax({
 			type:"POST",
 			url:"include/ajax.php",
+			data:{flag:'changemyinfo',newNickname:newNickname,newpwd:newpwd,newShuoshuo:newShuoshuo,newfriendNoteName:newfriendNoteName},
+			success:function(res){
+			}
+		});
+		
+		$(this).parent().parent().hide();
+			
+	});
+	
+}
+
+function draggable(){
+	$(".box").draggable({ 
+			handle: ".talkboxtitle" ,
+			containment: "parent"
+		});
+}
+
+
+function logoin(){
+	
+		$.ajax({
+			type:"POST",
+			url:"include/ajax.php",
 			data:{flag:'logoin'},
 			success:function(res){
-				//alert(0);
+				
 				//alert(res);
 			}
 		});
-
-	//});
 	
 }
 
@@ -60,8 +157,8 @@ function changelogout(){
 					var curuserid=$("#myinfo").attr("curuserid");
 					var talkname=$("#friendlitalk"+id).attr("talkname");
 					var State=$("#friendlitalk"+id).find(".State").html();
-					//alert(talkname);
-					if(userState=="online"&&id!=curuserid&& State=="offline"){
+					//alert(shuoshuo);
+					if(userState=="online"&&id!=curuserid&&State=="offline"){
 						$("#friendlitalk"+id).remove();
 
 						var onlinehtml ='';
@@ -69,6 +166,7 @@ function changelogout(){
 							onlinehtml +='	<div class="friendImg"><img src="'+userHeadImage+'" class="headImg"></div>';
 							onlinehtml +='	<div class="friendInfo">';
 							onlinehtml +='		<a class="NickName">'+talkname+'</a>';
+							onlinehtml +='		<a class="xgFNickname"   id="xgFNickname'+id+'">修改好友备注</a>';
 							onlinehtml +='		<span class="shuoshuo">'+shuoshuo+'</span>';
 							onlinehtml +='		<a class="State">'+userState+'</a>';
 							onlinehtml +='	</div>';
@@ -83,12 +181,18 @@ function changelogout(){
 							offlinehtml +='	<div class="friendImg"><img src="'+userHeadImage+'" class="headImg grey"></div>';
 							offlinehtml +='	<div class="friendInfo">';
 							offlinehtml +='		<a class="NickName">'+talkname+'</a>';
+							offlinehtml +='		<a class="xgFNickname"  id="xgFNickname'+id+'">修改好友备注</a>';
 							offlinehtml +='		<span class="shuoshuo">'+shuoshuo+'</span>';
 							offlinehtml +='		<a class="State">'+userState+'</a>';
 							offlinehtml +='	</div>';
 							offlinehtml +='</li>';
 						$(".offlinefriendList").append(offlinehtml);
 					}
+					
+					
+					
+
+					
 				});
 
 			}
@@ -144,7 +248,11 @@ function getUnreadMsg(){
 									
 							    $("#talk"+msgSender).find(".talkContent").append(receivemsghtmlA);		    
 							
-					}
+						}else{
+							$("#friendlitalk"+msgSender).css("background-color","#b6cf5f");
+						}
+
+
 	 			});
 	 			if(msgSenderidArr.length != 0){
 	
@@ -166,21 +274,11 @@ function getUnreadMsg(){
 
 
 
-
-
-
-
-
-
-
-
-
-
 function chathtml(){
 
 	$(document).on("click",".friendList li",function(){
 
-
+		$(this).css("background-color","#fff");
 		var talkid=$(this).attr("talkid");
 		var talkname=$(this).attr("talkname");
 		var isshow=$(this).attr("isshow");
@@ -213,20 +311,20 @@ function chathtml(){
 
 			}		
 		}
-		$(".talk").css("z-index","1");
-		$("#talk"+talkid).css("z-index","22");
-		$(".close").click(function(){
+			$(".talk").css("z-index","1");
+			$("#talk"+talkid).css("z-index","22");
+			$(".close").click(function(){
 
-			var talkidN = $(this).parent().parent().attr("id");
-			$("#friendli"+talkidN).attr("isshow","no");
-			$(this).parent().parent("#talk"+talkid).hide();
-			
-		});
+				var talkidN = $(this).parent().parent().attr("id");
+				$("#friendli"+talkidN).attr("isshow","no");
+				$(this).parent().parent("#talk"+talkid).hide();
+				
+			});
 
-		$("#talk"+talkid).draggable({ 
-			handle: ".talkboxtitle" ,
-			containment: "parent"
-		});
+			$("#talk"+talkid).draggable({ 
+				handle: ".talkboxtitle" ,
+				containment: "parent"
+			});
 
 		
 	});
@@ -248,11 +346,11 @@ function sendMsg(){
 	 			url:"include/ajax.php",
 	 			data:{flag:'sendMsg',msg:msg,senderid:senderid,receiveid:receiveid},
 				success:function(res){
-					alert(res);
+					//alert(res);
 				}
 	 		});
 
-			$(this).parent().prev().find(".txtMsg").val(" ");
+			$(this).parent().prev().find(".txtMsg").val("");
 			var myHeadImageUrl=$(".headImg").attr("curHeadImageUrl");
 			//alert(myHeadImageUrl);
 
@@ -269,64 +367,3 @@ function sendMsg(){
 		
 }
 
-// function iniDelegate(){
-// 	$(".friendli").click(function(){
-// 		var talkid=$(this).attr("talkid");
-// 		var talkname=$(this).attr("talkname");
-//  		var isapper=$(this).attr("isapper");
-//  		var isshow=$(this).attr("isshow");
-//  		if(isapper=="no"){
-//  			$(".talk").show();
-//  			if(isshow="yes"){
-//  				$(".close").click(function(){
-//  					$(".talk").hide();
-//  				});
-//  			}
-//  		}
-
-//  		var talkname=$(this).attr("talkname");
-//  		var talkid = $(this).attr("talkid");
-//  		//alert(talkid);
-//  		$(".talkboxtitle a").html("与"+talkname+"聊天中");
-//  		//拖动
-//  		$(".talk").draggable({ 
-// 			handle: ".talkboxtitle" ,
-//  			containment: "parent"
-//  		});
-// 	});
-
-// 	$("#send").click(function(){
-// 		var msg = $("#txtMsg").val();
-// 		//alert(msg);
-// 		if(msg==""){
-// 			return;
-// 		}
-
-// 		var receiveid= $(this).attr("talkid");
-// 		var senderid= $("#myinfo").attr("curuserid");
-// 		$.ajax({
-// 			type:"POST",
-// 			url:"include/ajax.php",
-// 			data:{flag:'sendMsg',msg:msg,senderid:senderid,receiveid:senderid},
-// 			success:function(res){
-// 				//alert(res);
-// 			}
-// 		});
-
-// 		$(this).parent().prev().find("#txtMsg").val(" ");
-// 		var myHeadImageUrl=$(".headImg").attr("curHeadImageUrl");
-// 		//alert(myHeadImageUrl);
-
-// 		var chathtmlA ='';
-// 			chathtmlA +='<div id="'+talkid+'"  class="box">';
-// 		    chathtmlA +='	<div class="onetalkbox">';
-// 		    chathtmlA +='		<div class="headImage"><img src=" '+myHeadImageUrl+' " class="headImage"  /></div>';
-// 		    chathtmlA +='		<div class="onetalk">'+msg+'</div>';
-// 		    chathtmlA +='	</div>';
-// 		    chathtmlA +='</div>';	
-// 		   $(".talkContent").append(chathtmlA);
-		
-// 	});	
-
-
-// }

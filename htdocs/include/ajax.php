@@ -11,7 +11,11 @@
 	$curUserid=isset($_SESSION["wodeid"])?$_SESSION["wodeid"]:"";
 
 	$msgSender=isset($_POST["msgSender"])?$_POST["msgSender"]:"";
-	
+	$newNickname=isset($_POST["newNickname"])?$_POST["newNickname"]:"";
+	$newShuoshuo=isset($_POST["newShuoshuo"])?$_POST["newShuoshuo"]:"";
+	$newpwd=isset($_POST["newpwd"])?$_POST["newpwd"]:"";
+	$friendNoteName=isset($_POST["friendNoteName"])?$_POST["friendNoteName"]:"";
+	$cufriendid=isset($_POST["cufriendid"])?$_POST["cufriendid"]:"";
 	//echo $curUserid;
 
 	if($flag =="sendMsg"){
@@ -67,7 +71,22 @@
 
 		echo json_encode($res);
 	}
-	
 
+	if($flag=="changemyinfo"){
+		$sql="update userinfo set userNickname='$newNickname',shuoshuo='$newShuoshuo',userpwd='$newpwd' where id=$curUserid ";
+		$res=$db->get_results($sql);
+
+	}
+	if($flag=="changefriendinfo"){
+		$sql="update friendsinfo set friendNoteName='$newfriendNoteName' where userid=$curUserid and friendid=$cufriendid ";
+		$res=$db->get_results($sql);
+
+	}
+	if($flag=="selectinfo"){
+		$sql="select * from userinfo";
+		$res=$db->get_results($sql);
+
+		echo json_encode($res);
+	}
 	
 ?>
